@@ -1,17 +1,21 @@
+syntax = "proto3";
+
+package libpaxos;
+
 message NextRound {
-  uint64 roundNumber;
+  uint64 roundNumber = 1;
 }
 
 message LastVote {
-  uint64 roundNumber;
-  uint64 lastRound;
+  uint64 roundNumber = 1;
+  uint64 lastRound = 2;
 }
 
 message BeginRound {
-  uint64 roundNumber;
-  uint64 value;
+  uint64 roundNumber = 1;
+  uint64 value = 2;
 }
 
 message Voted {
-  uint64 roundNumber;
+  uint64 roundNumber = 1;
 }
