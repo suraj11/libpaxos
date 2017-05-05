@@ -1,0 +1,17 @@
+message NextRound {
+  uint64 roundNumber;
+}
+
+message LastVote {
+  uint64 roundNumber;
+  uint64 lastRound;
+}
+
+message BeginRound {
+  uint64 roundNumber;
+  uint64 value;
+}
+
+message Voted {
+  uint64 roundNumber;
+}
