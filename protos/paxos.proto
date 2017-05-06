@@ -8,7 +8,8 @@ message NextRound {
 
 message LastVote {
   uint64 roundNumber = 1;
-  uint64 lastRound = 2;
+  uint64 lastValue = 2;
+  uint64 lastRound = 3;
 }
 
 message BeginRound {
@@ -18,4 +19,21 @@ message BeginRound {
 
 message Voted {
   uint64 roundNumber = 1;
+  uint64 lastRound = 2;
+}
+
+message Ok {
+  uint64 roundNumber = 1;
+}
+
+message Value {
+  uint64 value = 1;
+}
+
+service Acceptor {
+  rpc getLastVote(NextRound) returns (LastVote) {}
+
+  rpc beginRound(BeginRound) returns (Voted) {}
+
+  rpc success(Value) returns (Ok) {}
 }

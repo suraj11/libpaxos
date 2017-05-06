@@ -15,5 +15,89 @@
 #include <grpc++/impl/codegen/sync_stream.h>
 namespace libpaxos {
 
+static const char* Acceptor_method_names[] = {
+  "/libpaxos.Acceptor/getLastVote",
+  "/libpaxos.Acceptor/beginRound",
+  "/libpaxos.Acceptor/success",
+};
+
+std::unique_ptr< Acceptor::Stub> Acceptor::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  std::unique_ptr< Acceptor::Stub> stub(new Acceptor::Stub(channel));
+  return stub;
+}
+
+Acceptor::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
+  : channel_(channel), rpcmethod_getLastVote_(Acceptor_method_names[0], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_beginRound_(Acceptor_method_names[1], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_success_(Acceptor_method_names[2], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  {}
+
+::grpc::Status Acceptor::Stub::getLastVote(::grpc::ClientContext* context, const ::libpaxos::NextRound& request, ::libpaxos::LastVote* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_getLastVote_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::libpaxos::LastVote>* Acceptor::Stub::AsyncgetLastVoteRaw(::grpc::ClientContext* context, const ::libpaxos::NextRound& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::libpaxos::LastVote>(channel_.get(), cq, rpcmethod_getLastVote_, context, request);
+}
+
+::grpc::Status Acceptor::Stub::beginRound(::grpc::ClientContext* context, const ::libpaxos::BeginRound& request, ::libpaxos::Voted* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_beginRound_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::libpaxos::Voted>* Acceptor::Stub::AsyncbeginRoundRaw(::grpc::ClientContext* context, const ::libpaxos::BeginRound& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::libpaxos::Voted>(channel_.get(), cq, rpcmethod_beginRound_, context, request);
+}
+
+::grpc::Status Acceptor::Stub::success(::grpc::ClientContext* context, const ::libpaxos::Value& request, ::libpaxos::Ok* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_success_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::libpaxos::Ok>* Acceptor::Stub::AsyncsuccessRaw(::grpc::ClientContext* context, const ::libpaxos::Value& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::libpaxos::Ok>(channel_.get(), cq, rpcmethod_success_, context, request);
+}
+
+Acceptor::Service::Service() {
+  AddMethod(new ::grpc::RpcServiceMethod(
+      Acceptor_method_names[0],
+      ::grpc::RpcMethod::NORMAL_RPC,
+      new ::grpc::RpcMethodHandler< Acceptor::Service, ::libpaxos::NextRound, ::libpaxos::LastVote>(
+          std::mem_fn(&Acceptor::Service::getLastVote), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      Acceptor_method_names[1],
+      ::grpc::RpcMethod::NORMAL_RPC,
+      new ::grpc::RpcMethodHandler< Acceptor::Service, ::libpaxos::BeginRound, ::libpaxos::Voted>(
+          std::mem_fn(&Acceptor::Service::beginRound), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      Acceptor_method_names[2],
+      ::grpc::RpcMethod::NORMAL_RPC,
+      new ::grpc::RpcMethodHandler< Acceptor::Service, ::libpaxos::Value, ::libpaxos::Ok>(
+          std::mem_fn(&Acceptor::Service::success), this)));
+}
+
+Acceptor::Service::~Service() {
+}
+
+::grpc::Status Acceptor::Service::getLastVote(::grpc::ServerContext* context, const ::libpaxos::NextRound* request, ::libpaxos::LastVote* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Acceptor::Service::beginRound(::grpc::ServerContext* context, const ::libpaxos::BeginRound* request, ::libpaxos::Voted* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Acceptor::Service::success(::grpc::ServerContext* context, const ::libpaxos::Value* request, ::libpaxos::Ok* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+
 }  // namespace libpaxos
 
