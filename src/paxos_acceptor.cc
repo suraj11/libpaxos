@@ -7,7 +7,7 @@
 
 #include "paxos.grpc.pb.h"
 
-// DEFINE_uint32(port, 50051, "Listen port");
+DEFINE_uint32(libpaxos_port, 50051, "Listen port");
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -31,8 +31,9 @@ class AcceptorImpl : public Acceptor::Service {
 };
 
 int main(int argc, char** argv) {
-	// gflags::ParseCommandLineFlags(&argc, &argv, true);
-  std::string server_address = "0.0.0.0:5001";
+  gflags::ParseCommandLineFlags(&argc, &argv, true);
+
+  std::string server_address = "0.0.0.0:" + std::to_string(FLAGS_libpaxos_port);
   ServerBuilder builder;
   AcceptorImpl service;
 
