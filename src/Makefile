@@ -20,9 +20,12 @@ PROTOS_PATH = ../protos
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check acceptor
+all: system-check acceptor initiator
 
 acceptor: paxos.pb.o paxos.grpc.pb.o paxos_acceptor.o
+	$(CXX) $^ $(LDFLAGS) -o $@
+
+initiator: paxos.pb.o paxos.grpc.pb.o paxos_initiator.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
@@ -34,7 +37,7 @@ acceptor: paxos.pb.o paxos.grpc.pb.o paxos_acceptor.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h greeter_client greeter_server greeter_async_client greeter_async_client2 greeter_async_server
+	rm -f *.o *.pb.cc *.pb.h acceptor initiator
 
 
 # The following is to test your system and ensure a smoother experience.
