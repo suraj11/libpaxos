@@ -40,37 +40,16 @@ namespace {
 
 }  // namespace
 
-PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
-  {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
-};
-
-PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
-  ::google::protobuf::internal::AuxillaryParseTableField(),
-};
-PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
-  { NULL, NULL, 0, -1, -1, false },
-  { NULL, NULL, 0, -1, -1, false },
-  { NULL, NULL, 0, -1, -1, false },
-  { NULL, NULL, 0, -1, -1, false },
-  { NULL, NULL, 0, -1, -1, false },
-  { NULL, NULL, 0, -1, -1, false },
-};
-
 const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(NextRound, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(NextRound, roundnumber_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, roundnumber_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, lastvalue_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, lastround_),
@@ -78,37 +57,33 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BeginRound, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BeginRound, roundnumber_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BeginRound, value_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Voted, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Voted, roundnumber_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Voted, lastround_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Ok, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Ok, roundnumber_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Value, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Value, value_),
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
   { 0, -1, sizeof(NextRound)},
-  { 6, -1, sizeof(LastVote)},
-  { 14, -1, sizeof(BeginRound)},
-  { 21, -1, sizeof(Voted)},
-  { 28, -1, sizeof(Ok)},
-  { 34, -1, sizeof(Value)},
+  { 5, -1, sizeof(LastVote)},
+  { 12, -1, sizeof(BeginRound)},
+  { 18, -1, sizeof(Voted)},
+  { 24, -1, sizeof(Ok)},
+  { 29, -1, sizeof(Value)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -254,7 +229,7 @@ void NextRound::SetCachedSize(int size) const {
 }
 const ::google::protobuf::Descriptor* NextRound::descriptor() {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+  return protobuf_paxos_2eproto::file_level_metadata[0].descriptor;
 }
 
 const NextRound& NextRound::default_instance() {
@@ -287,8 +262,7 @@ bool NextRound::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint64 roundNumber = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
+        if (tag == 8u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -323,9 +297,6 @@ failure:
 void NextRound::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:libpaxos.NextRound)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roundnumber(), output);
@@ -336,10 +307,8 @@ void NextRound::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* NextRound::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:libpaxos.NextRound)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roundnumber(), target);
@@ -386,9 +355,6 @@ void NextRound::MergeFrom(const NextRound& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:libpaxos.NextRound)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   if (from.roundnumber() != 0) {
     set_roundnumber(from.roundnumber());
   }
@@ -423,7 +389,7 @@ void NextRound::InternalSwap(NextRound* other) {
 
 ::google::protobuf::Metadata NextRound::GetMetadata() const {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_paxos_2eproto::file_level_metadata[0];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -493,7 +459,7 @@ void LastVote::SetCachedSize(int size) const {
 }
 const ::google::protobuf::Descriptor* LastVote::descriptor() {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+  return protobuf_paxos_2eproto::file_level_metadata[1].descriptor;
 }
 
 const LastVote& LastVote::default_instance() {
@@ -527,8 +493,7 @@ bool LastVote::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint64 roundNumber = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
+        if (tag == 8u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -541,8 +506,7 @@ bool LastVote::MergePartialFromCodedStream(
 
       // uint64 lastValue = 2;
       case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u)) {
+        if (tag == 16u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -555,8 +519,7 @@ bool LastVote::MergePartialFromCodedStream(
 
       // uint64 lastRound = 3;
       case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u)) {
+        if (tag == 24u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -591,9 +554,6 @@ failure:
 void LastVote::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:libpaxos.LastVote)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roundnumber(), output);
@@ -614,10 +574,8 @@ void LastVote::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* LastVote::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:libpaxos.LastVote)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roundnumber(), target);
@@ -688,9 +646,6 @@ void LastVote::MergeFrom(const LastVote& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:libpaxos.LastVote)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   if (from.roundnumber() != 0) {
     set_roundnumber(from.roundnumber());
   }
@@ -733,7 +688,7 @@ void LastVote::InternalSwap(LastVote* other) {
 
 ::google::protobuf::Metadata LastVote::GetMetadata() const {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_paxos_2eproto::file_level_metadata[1];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -830,7 +785,7 @@ void BeginRound::SetCachedSize(int size) const {
 }
 const ::google::protobuf::Descriptor* BeginRound::descriptor() {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+  return protobuf_paxos_2eproto::file_level_metadata[2].descriptor;
 }
 
 const BeginRound& BeginRound::default_instance() {
@@ -864,8 +819,7 @@ bool BeginRound::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint64 roundNumber = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
+        if (tag == 8u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -878,8 +832,7 @@ bool BeginRound::MergePartialFromCodedStream(
 
       // uint64 value = 2;
       case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u)) {
+        if (tag == 16u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -914,9 +867,6 @@ failure:
 void BeginRound::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:libpaxos.BeginRound)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roundnumber(), output);
@@ -932,10 +882,8 @@ void BeginRound::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* BeginRound::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:libpaxos.BeginRound)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roundnumber(), target);
@@ -994,9 +942,6 @@ void BeginRound::MergeFrom(const BeginRound& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:libpaxos.BeginRound)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   if (from.roundnumber() != 0) {
     set_roundnumber(from.roundnumber());
   }
@@ -1035,7 +980,7 @@ void BeginRound::InternalSwap(BeginRound* other) {
 
 ::google::protobuf::Metadata BeginRound::GetMetadata() const {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_paxos_2eproto::file_level_metadata[2];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -1118,7 +1063,7 @@ void Voted::SetCachedSize(int size) const {
 }
 const ::google::protobuf::Descriptor* Voted::descriptor() {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+  return protobuf_paxos_2eproto::file_level_metadata[3].descriptor;
 }
 
 const Voted& Voted::default_instance() {
@@ -1152,8 +1097,7 @@ bool Voted::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint64 roundNumber = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
+        if (tag == 8u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -1166,8 +1110,7 @@ bool Voted::MergePartialFromCodedStream(
 
       // uint64 lastRound = 2;
       case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u)) {
+        if (tag == 16u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -1202,9 +1145,6 @@ failure:
 void Voted::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:libpaxos.Voted)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roundnumber(), output);
@@ -1220,10 +1160,8 @@ void Voted::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Voted::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:libpaxos.Voted)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roundnumber(), target);
@@ -1282,9 +1220,6 @@ void Voted::MergeFrom(const Voted& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:libpaxos.Voted)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   if (from.roundnumber() != 0) {
     set_roundnumber(from.roundnumber());
   }
@@ -1323,7 +1258,7 @@ void Voted::InternalSwap(Voted* other) {
 
 ::google::protobuf::Metadata Voted::GetMetadata() const {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_paxos_2eproto::file_level_metadata[3];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -1402,7 +1337,7 @@ void Ok::SetCachedSize(int size) const {
 }
 const ::google::protobuf::Descriptor* Ok::descriptor() {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+  return protobuf_paxos_2eproto::file_level_metadata[4].descriptor;
 }
 
 const Ok& Ok::default_instance() {
@@ -1435,8 +1370,7 @@ bool Ok::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint64 roundNumber = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
+        if (tag == 8u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -1471,9 +1405,6 @@ failure:
 void Ok::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:libpaxos.Ok)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roundnumber(), output);
@@ -1484,10 +1415,8 @@ void Ok::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Ok::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:libpaxos.Ok)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 roundNumber = 1;
   if (this->roundnumber() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roundnumber(), target);
@@ -1534,9 +1463,6 @@ void Ok::MergeFrom(const Ok& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:libpaxos.Ok)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   if (from.roundnumber() != 0) {
     set_roundnumber(from.roundnumber());
   }
@@ -1571,7 +1497,7 @@ void Ok::InternalSwap(Ok* other) {
 
 ::google::protobuf::Metadata Ok::GetMetadata() const {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_paxos_2eproto::file_level_metadata[4];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -1636,7 +1562,7 @@ void Value::SetCachedSize(int size) const {
 }
 const ::google::protobuf::Descriptor* Value::descriptor() {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+  return protobuf_paxos_2eproto::file_level_metadata[5].descriptor;
 }
 
 const Value& Value::default_instance() {
@@ -1669,8 +1595,7 @@ bool Value::MergePartialFromCodedStream(
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint64 value = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
+        if (tag == 8u) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -1705,9 +1630,6 @@ failure:
 void Value::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:libpaxos.Value)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 value = 1;
   if (this->value() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->value(), output);
@@ -1718,10 +1640,8 @@ void Value::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Value::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:libpaxos.Value)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   // uint64 value = 1;
   if (this->value() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->value(), target);
@@ -1768,9 +1688,6 @@ void Value::MergeFrom(const Value& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:libpaxos.Value)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
   if (from.value() != 0) {
     set_value(from.value());
   }
@@ -1805,7 +1722,7 @@ void Value::InternalSwap(Value* other) {
 
 ::google::protobuf::Metadata Value::GetMetadata() const {
   protobuf_paxos_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_paxos_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_paxos_2eproto::file_level_metadata[5];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
