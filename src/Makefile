@@ -17,15 +17,20 @@ GRPC_CPP_PLUGIN = grpc_cpp_plugin
 GRPC_CPP_PLUGIN_PATH ?= `which $(GRPC_CPP_PLUGIN)`
 
 PROTOS_PATH = ../protos
+BUILD_DIR = ../build
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check acceptor initiator
+all: system-check $(BUILD_DIR)/acceptor $(BUILD_DIR)/initiator
 
-acceptor: paxos.pb.o paxos.grpc.pb.o paxos_acceptor.o
+$(BUILD_DIR)/%.o: %.cc
+	mkdir -p $(BUILD_DIR)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@
+
+$(BUILD_DIR)/acceptor: $(BUILD_DIR)/paxos.pb.o $(BUILD_DIR)/paxos.grpc.pb.o $(BUILD_DIR)/paxos_acceptor.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-initiator: paxos.pb.o paxos.grpc.pb.o paxos_initiator.o
+$(BUILD_DIR)/initiator: $(BUILD_DIR)/paxos.pb.o $(BUILD_DIR)/paxos.grpc.pb.o $(BUILD_DIR)/paxos_initiator.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
@@ -37,7 +42,7 @@ initiator: paxos.pb.o paxos.grpc.pb.o paxos_initiator.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h acceptor initiator
+	rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/acceptor $(BUILD_DIR)/initiator
 
 
 # The following is to test your system and ensure a smoother experience.
