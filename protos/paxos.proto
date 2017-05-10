@@ -27,7 +27,8 @@ message Ok {
 }
 
 message Value {
-  uint64 value = 1;
+  uint64 roundNumber = 1;
+  uint64 value = 2;
 }
 
 service Acceptor {

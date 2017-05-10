@@ -19,15 +19,39 @@ using grpc::Status;
 using namespace libpaxos;
 
 class AcceptorImpl : public Acceptor::Service {
+ public:
   Status getLastVote(ServerContext*, const NextRound* request, LastVote* response) override {
-		return Status::OK;
+    const auto round = request->roundnumber();
+    response->set_roundnumber(round);
+    if (round > nextRound_) {
+      nextRound_ = round;
+      response->set_lastvalue(prevVote_);
+      response->set_lastround(0);
+    } else {
+      response->set_lastround(nextRound_);
+      response->set_lastvalue(0);
+    }
+    return Status::OK;
   }
   Status beginRound(ServerContext*, const BeginRound* request, Voted* response) override {
-		return Status::OK;
+    const auto round = request->roundnumber();
+    response->set_roundnumber(round);
+    if (round == nextRound_) {
+      prevVote_ = request->value();
+      response->set_lastround(0);
+    } else {
+      response->set_lastround(nextRound_);
+    }
+	  return Status::OK;
   }
-  Status success(ServerContext*, const Value* request) {
-		return Status::OK;
+  Status success(ServerContext*, const Value* request, Ok* response) {
+   response->set_roundnumber(request->roundnumber());
+	 return Status::OK;
   }
+ private:
+  uint64_t value_ = 0;
+  int64_t nextRound_ = -1;
+  uint64_t prevVote_ = 0;
 };
 
 int main(int argc, char** argv) {
