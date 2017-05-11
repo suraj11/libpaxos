@@ -1,3 +1,3 @@
 # libpaxos
 
-Implements the paxos algorithm
+Implements the paxos algorithm.
