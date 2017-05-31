@@ -4,6 +4,7 @@
 #include <random>
 #include <string>
 #include <thread>
+#include <fstream>
 
 #include <grpc/grpc.h>
 #include <grpc++/channel.h>
@@ -25,33 +26,73 @@ using libpaxos::Voted;
 using libpaxos::Ok;
 using libpaxos::Value;
 using libpaxos::Acceptor;
+using namespace std;
 
+class InitiatorClient {
+public:
+};
 
 int main(int argc, char** argv) {
-  std::shared_ptr<Channel> channel = grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials());
-  std::unique_ptr<Acceptor::Stub> stub_(Acceptor::NewStub(channel));
+
+  InitiatorClient client;
+
+  std::ifstream file("acceptor.conf");
+  std::string str;
+  vector<string> address;
+  while (std::getline(file, str))
+  {
+    address.push_back(str);
+  }
+
+  vector<std::shared_ptr<Channel>> channel(address.size());
+  vector<LastVote> response;
+  int maxRound = INT_MIN;
+  int maxVal = INT_MIN;
   uint64_t lastTried = 1;
-  ClientContext context;
 
-  NextRound round;
-  LastVote response;
-//  round.set_roundNumber(lastTried);
-  stub_->getLastVote(&context, round, &response);
-/*
-//  cur_val = lastVote.get_lastValue();
+/* Next ballot */
+  for(int i=0; i < address.size(); i++) {
+      channel[i] = grpc::CreateChannel(address[i], grpc::InsecureChannelCredentials());
+      std::unique_ptr<Acceptor::Stub> stub_(Acceptor::NewStub(channel[i]));
+      ClientContext contextGetlastVote;
+      NextRound round;
+      cout<< "created channel for "<<address[i]<< "\n";
+      round.set_roundnumber(lastTried);
+      cout<<"before getting last vote.\n";
+      Status status = stub_->getLastVote(&contextGetlastVote, round, &response[i]);
+      cout<<"got last vote.\n";
 
-  BeginRound br;
-//  br.set_roundNumber(lastTried);
-//  br.set_value(cur_val);
-  Voted vote;
-  stub_->beginRound(&context, br, &vote);
-
-//  if(Voted.get_lastRound == lastTried) {
-    Value v;
-    Ok k;
-    stub_->success(&context, v, &k);
-//  }  
+/*      if(response[i].lastround() > maxRound) {
+        maxRound = response[i].lastround();
+        maxVal = response[i].lastvalue();
+        maxVal = 1;
+      }
 */
+  }
+
+
+/* BeginBallot */
+  for(int i=0; i < address.size(); i++) {
+    channel[i] = grpc::CreateChannel(address[i], grpc::InsecureChannelCredentials());
+    std::unique_ptr<Acceptor::Stub> stub_(Acceptor::NewStub(channel[i]));
+
+    ClientContext contextBeginRound;
+    BeginRound br;
+    br.set_roundnumber(lastTried);
+    br.set_value(maxVal);
+    Voted vote;
+ cout<<"before begin round\n";
+    stub_->beginRound(&contextBeginRound, br, &vote);
+
+//    if(vote.lastround() == lastTried) {
+      ClientContext contextSuccess;
+      Value v;
+      Ok k;
+      cout<<"before success.\n";
+      stub_->success(&contextSuccess, v, &k);
+//    }
+   }
+
   return 0;
 }
 
