@@ -42,11 +42,11 @@ class AcceptorImpl : public Acceptor::Service {
     } else {
       response->set_lastround(nextRound_);
     }
-	  return Status::OK;
+    return Status::OK;
   }
   Status success(ServerContext*, const Value* request, Ok* response) {
    response->set_roundnumber(request->roundnumber());
-	 return Status::OK;
+   return Status::OK;
   }
  private:
   uint64_t value_ = 0;
