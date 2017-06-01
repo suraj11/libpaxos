@@ -50,7 +50,7 @@ class AcceptorImpl : public Acceptor::Service {
   }
  private:
   uint64_t value_ = 0;
-  int64_t nextRound_ = -1;
+  uint64_t nextRound_ = 0;
   uint64_t prevVote_ = 0;
 };
 
