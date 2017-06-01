@@ -10,6 +10,7 @@ message LastVote {
   uint64 roundNumber = 1;
   uint64 lastValue = 2;
   uint64 lastRound = 3;
+	bool accepted = 4;
 }
 
 message BeginRound {
@@ -20,6 +21,7 @@ message BeginRound {
 message Voted {
   uint64 roundNumber = 1;
   uint64 lastRound = 2;
+	bool accepted = 3;
 }
 
 message Ok {

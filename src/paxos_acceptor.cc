@@ -25,11 +25,12 @@ class AcceptorImpl : public Acceptor::Service {
     response->set_roundnumber(round);
     if (round > nextRound_) {
       nextRound_ = round;
-      response->set_lastvalue(prevVote_);
-      response->set_lastround(0);
+      response->set_lastvalue(prevValue_);
+      response->set_lastround(prevVote_);
+		  response->set_accepted(true);
     } else {
       response->set_lastround(nextRound_);
-      response->set_lastvalue(0);
+		  response->set_accepted(false);
     }
     return Status::OK;
   }
@@ -37,10 +38,13 @@ class AcceptorImpl : public Acceptor::Service {
     const auto round = request->roundnumber();
     response->set_roundnumber(round);
     if (round == nextRound_) {
-      prevVote_ = request->value();
+			prevVote_ = round;
+      prevValue_ = request->value();
       response->set_lastround(0);
+		  response->set_accepted(true);
     } else {
       response->set_lastround(nextRound_);
+		  response->set_accepted(false);
     }
     return Status::OK;
   }
@@ -52,12 +56,13 @@ class AcceptorImpl : public Acceptor::Service {
   uint64_t value_ = 0;
   uint64_t nextRound_ = 0;
   uint64_t prevVote_ = 0;
+	uint64_t prevValue_ = 0;
 };
 
 int main(int argc, char** argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-  std::string server_address = "0.0.0.0:" + std::to_string(FLAGS_libpaxos_port);
+  std::string server_address = "172.31.8.161:" + std::to_string(FLAGS_libpaxos_port);
   ServerBuilder builder;
   AcceptorImpl service;
 

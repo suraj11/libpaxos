@@ -233,6 +233,12 @@ class LastVote : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::uint64 lastround() const;
   void set_lastround(::google::protobuf::uint64 value);
 
+  // bool accepted = 4;
+  void clear_accepted();
+  static const int kAcceptedFieldNumber = 4;
+  bool accepted() const;
+  void set_accepted(bool value);
+
   // @@protoc_insertion_point(class_scope:libpaxos.LastVote)
  private:
 
@@ -240,6 +246,7 @@ class LastVote : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::uint64 roundnumber_;
   ::google::protobuf::uint64 lastvalue_;
   ::google::protobuf::uint64 lastround_;
+  bool accepted_;
   mutable int _cached_size_;
   friend struct  protobuf_paxos_2eproto::TableStruct;
 };
@@ -414,12 +421,19 @@ class Voted : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint64 lastround() const;
   void set_lastround(::google::protobuf::uint64 value);
 
+  // bool accepted = 3;
+  void clear_accepted();
+  static const int kAcceptedFieldNumber = 3;
+  bool accepted() const;
+  void set_accepted(bool value);
+
   // @@protoc_insertion_point(class_scope:libpaxos.Voted)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 roundnumber_;
   ::google::protobuf::uint64 lastround_;
+  bool accepted_;
   mutable int _cached_size_;
   friend struct  protobuf_paxos_2eproto::TableStruct;
 };
@@ -664,6 +678,20 @@ inline void LastVote::set_lastround(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:libpaxos.LastVote.lastRound)
 }
 
+// bool accepted = 4;
+inline void LastVote::clear_accepted() {
+  accepted_ = false;
+}
+inline bool LastVote::accepted() const {
+  // @@protoc_insertion_point(field_get:libpaxos.LastVote.accepted)
+  return accepted_;
+}
+inline void LastVote::set_accepted(bool value) {
+  
+  accepted_ = value;
+  // @@protoc_insertion_point(field_set:libpaxos.LastVote.accepted)
+}
+
 // -------------------------------------------------------------------
 
 // BeginRound
@@ -726,6 +754,20 @@ inline void Voted::set_lastround(::google::protobuf::uint64 value) {
   
   lastround_ = value;
   // @@protoc_insertion_point(field_set:libpaxos.Voted.lastRound)
+}
+
+// bool accepted = 3;
+inline void Voted::clear_accepted() {
+  accepted_ = false;
+}
+inline bool Voted::accepted() const {
+  // @@protoc_insertion_point(field_get:libpaxos.Voted.accepted)
+  return accepted_;
+}
+inline void Voted::set_accepted(bool value) {
+  
+  accepted_ = value;
+  // @@protoc_insertion_point(field_set:libpaxos.Voted.accepted)
 }
 
 // -------------------------------------------------------------------

@@ -53,6 +53,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, roundnumber_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, lastvalue_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, lastround_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LastVote, accepted_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BeginRound, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -65,6 +66,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Voted, roundnumber_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Voted, lastround_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Voted, accepted_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Ok, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -81,10 +83,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
   { 0, -1, sizeof(NextRound)},
   { 5, -1, sizeof(LastVote)},
-  { 12, -1, sizeof(BeginRound)},
-  { 18, -1, sizeof(Voted)},
-  { 24, -1, sizeof(Ok)},
-  { 29, -1, sizeof(Value)},
+  { 13, -1, sizeof(BeginRound)},
+  { 19, -1, sizeof(Voted)},
+  { 26, -1, sizeof(Ok)},
+  { 31, -1, sizeof(Value)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -154,20 +156,21 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n\013paxos.proto\022\010libpaxos\" \n\tNextRound\022\023\n\013"
-      "roundNumber\030\001 \001(\004\"E\n\010LastVote\022\023\n\013roundNu"
+      "roundNumber\030\001 \001(\004\"W\n\010LastVote\022\023\n\013roundNu"
       "mber\030\001 \001(\004\022\021\n\tlastValue\030\002 \001(\004\022\021\n\tlastRou"
-      "nd\030\003 \001(\004\"0\n\nBeginRound\022\023\n\013roundNumber\030\001 "
-      "\001(\004\022\r\n\005value\030\002 \001(\004\"/\n\005Voted\022\023\n\013roundNumb"
-      "er\030\001 \001(\004\022\021\n\tlastRound\030\002 \001(\004\"\031\n\002Ok\022\023\n\013rou"
-      "ndNumber\030\001 \001(\004\"+\n\005Value\022\023\n\013roundNumber\030\001"
-      " \001(\004\022\r\n\005value\030\002 \001(\0042\247\001\n\010Acceptor\0228\n\013getL"
-      "astVote\022\023.libpaxos.NextRound\032\022.libpaxos."
-      "LastVote\"\000\0225\n\nbeginRound\022\024.libpaxos.Begi"
-      "nRound\032\017.libpaxos.Voted\"\000\022*\n\007success\022\017.l"
-      "ibpaxos.Value\032\014.libpaxos.Ok\"\000b\006proto3"
+      "nd\030\003 \001(\004\022\020\n\010accepted\030\004 \001(\010\"0\n\nBeginRound"
+      "\022\023\n\013roundNumber\030\001 \001(\004\022\r\n\005value\030\002 \001(\004\"A\n\005"
+      "Voted\022\023\n\013roundNumber\030\001 \001(\004\022\021\n\tlastRound\030"
+      "\002 \001(\004\022\020\n\010accepted\030\003 \001(\010\"\031\n\002Ok\022\023\n\013roundNu"
+      "mber\030\001 \001(\004\"+\n\005Value\022\023\n\013roundNumber\030\001 \001(\004"
+      "\022\r\n\005value\030\002 \001(\0042\247\001\n\010Acceptor\0228\n\013getLastV"
+      "ote\022\023.libpaxos.NextRound\032\022.libpaxos.Last"
+      "Vote\"\000\0225\n\nbeginRound\022\024.libpaxos.BeginRou"
+      "nd\032\017.libpaxos.Voted\"\000\022*\n\007success\022\017.libpa"
+      "xos.Value\032\014.libpaxos.Ok\"\000b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 477);
+      descriptor, 513);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "paxos.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -418,6 +421,7 @@ void NextRound::set_roundnumber(::google::protobuf::uint64 value) {
 const int LastVote::kRoundNumberFieldNumber;
 const int LastVote::kLastValueFieldNumber;
 const int LastVote::kLastRoundFieldNumber;
+const int LastVote::kAcceptedFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 LastVote::LastVote()
@@ -434,14 +438,14 @@ LastVote::LastVote(const LastVote& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&roundnumber_, &from.roundnumber_,
-    reinterpret_cast<char*>(&lastround_) -
-    reinterpret_cast<char*>(&roundnumber_) + sizeof(lastround_));
+    reinterpret_cast<char*>(&accepted_) -
+    reinterpret_cast<char*>(&roundnumber_) + sizeof(accepted_));
   // @@protoc_insertion_point(copy_constructor:libpaxos.LastVote)
 }
 
 void LastVote::SharedCtor() {
-  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&lastround_) -
-    reinterpret_cast<char*>(&roundnumber_) + sizeof(lastround_));
+  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&accepted_) -
+    reinterpret_cast<char*>(&roundnumber_) + sizeof(accepted_));
   _cached_size_ = 0;
 }
 
@@ -478,8 +482,8 @@ LastVote* LastVote::New(::google::protobuf::Arena* arena) const {
 
 void LastVote::Clear() {
 // @@protoc_insertion_point(message_clear_start:libpaxos.LastVote)
-  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&lastround_) -
-    reinterpret_cast<char*>(&roundnumber_) + sizeof(lastround_));
+  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&accepted_) -
+    reinterpret_cast<char*>(&roundnumber_) + sizeof(accepted_));
 }
 
 bool LastVote::MergePartialFromCodedStream(
@@ -531,6 +535,19 @@ bool LastVote::MergePartialFromCodedStream(
         break;
       }
 
+      // bool accepted = 4;
+      case 4: {
+        if (tag == 32u) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &accepted_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0 ||
@@ -570,6 +587,11 @@ void LastVote::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(3, this->lastround(), output);
   }
 
+  // bool accepted = 4;
+  if (this->accepted() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->accepted(), output);
+  }
+
   // @@protoc_insertion_point(serialize_end:libpaxos.LastVote)
 }
 
@@ -590,6 +612,11 @@ void LastVote::SerializeWithCachedSizes(
   // uint64 lastRound = 3;
   if (this->lastround() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(3, this->lastround(), target);
+  }
+
+  // bool accepted = 4;
+  if (this->accepted() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(4, this->accepted(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:libpaxos.LastVote)
@@ -619,6 +646,11 @@ size_t LastVote::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->lastround());
+  }
+
+  // bool accepted = 4;
+  if (this->accepted() != 0) {
+    total_size += 1 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -656,6 +688,9 @@ void LastVote::MergeFrom(const LastVote& from) {
   if (from.lastround() != 0) {
     set_lastround(from.lastround());
   }
+  if (from.accepted() != 0) {
+    set_accepted(from.accepted());
+  }
 }
 
 void LastVote::CopyFrom(const ::google::protobuf::Message& from) {
@@ -684,6 +719,7 @@ void LastVote::InternalSwap(LastVote* other) {
   std::swap(roundnumber_, other->roundnumber_);
   std::swap(lastvalue_, other->lastvalue_);
   std::swap(lastround_, other->lastround_);
+  std::swap(accepted_, other->accepted_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -735,6 +771,20 @@ void LastVote::set_lastround(::google::protobuf::uint64 value) {
   
   lastround_ = value;
   // @@protoc_insertion_point(field_set:libpaxos.LastVote.lastRound)
+}
+
+// bool accepted = 4;
+void LastVote::clear_accepted() {
+  accepted_ = false;
+}
+bool LastVote::accepted() const {
+  // @@protoc_insertion_point(field_get:libpaxos.LastVote.accepted)
+  return accepted_;
+}
+void LastVote::set_accepted(bool value) {
+  
+  accepted_ = value;
+  // @@protoc_insertion_point(field_set:libpaxos.LastVote.accepted)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -1022,6 +1072,7 @@ void BeginRound::set_value(::google::protobuf::uint64 value) {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Voted::kRoundNumberFieldNumber;
 const int Voted::kLastRoundFieldNumber;
+const int Voted::kAcceptedFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Voted::Voted()
@@ -1038,14 +1089,14 @@ Voted::Voted(const Voted& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&roundnumber_, &from.roundnumber_,
-    reinterpret_cast<char*>(&lastround_) -
-    reinterpret_cast<char*>(&roundnumber_) + sizeof(lastround_));
+    reinterpret_cast<char*>(&accepted_) -
+    reinterpret_cast<char*>(&roundnumber_) + sizeof(accepted_));
   // @@protoc_insertion_point(copy_constructor:libpaxos.Voted)
 }
 
 void Voted::SharedCtor() {
-  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&lastround_) -
-    reinterpret_cast<char*>(&roundnumber_) + sizeof(lastround_));
+  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&accepted_) -
+    reinterpret_cast<char*>(&roundnumber_) + sizeof(accepted_));
   _cached_size_ = 0;
 }
 
@@ -1082,8 +1133,8 @@ Voted* Voted::New(::google::protobuf::Arena* arena) const {
 
 void Voted::Clear() {
 // @@protoc_insertion_point(message_clear_start:libpaxos.Voted)
-  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&lastround_) -
-    reinterpret_cast<char*>(&roundnumber_) + sizeof(lastround_));
+  ::memset(&roundnumber_, 0, reinterpret_cast<char*>(&accepted_) -
+    reinterpret_cast<char*>(&roundnumber_) + sizeof(accepted_));
 }
 
 bool Voted::MergePartialFromCodedStream(
@@ -1116,6 +1167,19 @@ bool Voted::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
                  input, &lastround_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool accepted = 3;
+      case 3: {
+        if (tag == 24u) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &accepted_)));
         } else {
           goto handle_unusual;
         }
@@ -1156,6 +1220,11 @@ void Voted::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->lastround(), output);
   }
 
+  // bool accepted = 3;
+  if (this->accepted() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->accepted(), output);
+  }
+
   // @@protoc_insertion_point(serialize_end:libpaxos.Voted)
 }
 
@@ -1171,6 +1240,11 @@ void Voted::SerializeWithCachedSizes(
   // uint64 lastRound = 2;
   if (this->lastround() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->lastround(), target);
+  }
+
+  // bool accepted = 3;
+  if (this->accepted() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->accepted(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:libpaxos.Voted)
@@ -1193,6 +1267,11 @@ size_t Voted::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->lastround());
+  }
+
+  // bool accepted = 3;
+  if (this->accepted() != 0) {
+    total_size += 1 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1227,6 +1306,9 @@ void Voted::MergeFrom(const Voted& from) {
   if (from.lastround() != 0) {
     set_lastround(from.lastround());
   }
+  if (from.accepted() != 0) {
+    set_accepted(from.accepted());
+  }
 }
 
 void Voted::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1254,6 +1336,7 @@ void Voted::Swap(Voted* other) {
 void Voted::InternalSwap(Voted* other) {
   std::swap(roundnumber_, other->roundnumber_);
   std::swap(lastround_, other->lastround_);
+  std::swap(accepted_, other->accepted_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -1291,6 +1374,20 @@ void Voted::set_lastround(::google::protobuf::uint64 value) {
   
   lastround_ = value;
   // @@protoc_insertion_point(field_set:libpaxos.Voted.lastRound)
+}
+
+// bool accepted = 3;
+void Voted::clear_accepted() {
+  accepted_ = false;
+}
+bool Voted::accepted() const {
+  // @@protoc_insertion_point(field_get:libpaxos.Voted.accepted)
+  return accepted_;
+}
+void Voted::set_accepted(bool value) {
+  
+  accepted_ = value;
+  // @@protoc_insertion_point(field_set:libpaxos.Voted.accepted)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
