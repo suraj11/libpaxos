@@ -21,6 +21,16 @@ using grpc::Status;
 
 namespace libpaxos {
 
+LibPaxosAcceptor::LibPaxosAcceptor() {
+  thread_ = std::thread([this]() {
+		mainLoop();
+	});
+}
+
+LibPaxosAcceptor::~LibPaxosAcceptor() {
+  // todo: need to stop
+}
+
 Status LibPaxosAcceptor::getLastVote(ServerContext*, const NextRound* request, LastVote* response) {
   const auto round = request->roundnumber();
   response->set_roundnumber(round);
@@ -54,6 +64,18 @@ Status LibPaxosAcceptor::beginRound(ServerContext*, const BeginRound* request, V
 Status LibPaxosAcceptor::success(ServerContext*, const Value* request, Ok* response) {
  response->set_roundnumber(request->roundnumber());
  return Status::OK;
+}
+
+
+void LibPaxosAcceptor::mainLoop() {
+  std::string server_address = "0.0.0.0:" + std::to_string(FLAGS_libpaxos_port);
+  ServerBuilder builder;
+
+  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+  builder.RegisterService(this);
+  std::unique_ptr<Server> server(builder.BuildAndStart());
+  std::cout << "Server listening on " << server_address << std::endl;
+  server->Wait();
 }
 
 } // libpaxos
