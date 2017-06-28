@@ -1,3 +1,5 @@
+#pragma once
+
 #include "paxos.grpc.pb.h"
 
 namespace libpaxos {
