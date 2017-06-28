@@ -25,7 +25,7 @@ all: system-check $(BUILD_DIR)/libpaxos.a
 
 $(BUILD_DIR)/%.o: %.cc
 	mkdir -p $(BUILD_DIR)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/libpaxos.a: $(BUILD_DIR)/paxos.pb.o $(BUILD_DIR)/paxos.grpc.pb.o $(BUILD_DIR)/paxos_acceptor.o $(BUILD_DIR)/paxos_initiator.o
 	ar rcs $@ $^
