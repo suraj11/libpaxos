@@ -19,10 +19,10 @@ class LibPaxosAcceptor : public Acceptor::Service {
   uint64_t value_ = 0;
   uint64_t nextRound_ = 0;
   uint64_t prevVote_ = 0;
-	uint64_t prevValue_ = 0;
+  uint64_t prevValue_ = 0;
 
-	std::thread thread_;
-	std::unique_ptr<grpc::Server> server_;
+  std::thread thread_;
+  std::unique_ptr<grpc::Server> server_;
 };
 
 } // libpaxos

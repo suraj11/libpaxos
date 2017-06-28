@@ -28,8 +28,8 @@ LibPaxosAcceptor::LibPaxosAcceptor() {
 }
 
 LibPaxosAcceptor::~LibPaxosAcceptor() {
-	server_->Shutdown();
-	thread_.join();
+  server_->Shutdown();
+  thread_.join();
 }
 
 Status LibPaxosAcceptor::getLastVote(ServerContext*, const NextRound* request, LastVote* response) {
