@@ -1,17 +1,4 @@
-#include <chrono>
-#include <iostream>
-#include <memory>
-#include <random>
-#include <string>
-#include <thread>
-#include <fstream>
-
-#include <grpc/grpc.h>
-#include <grpc++/channel.h>
-#include <grpc++/client_context.h>
-#include <grpc++/create_channel.h>
-#include <grpc++/security/credentials.h>
-#include "paxos.grpc.pb.h"
+#include "paxos_initiator.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
@@ -29,39 +16,29 @@ using libpaxos::Ok;
 using libpaxos::Value;
 using libpaxos::Acceptor;
 
-class InitiatorClient {
-private:
-  uint64_t value;
-  uint64_t lastTried;
+void LibPaxosInitiator::setVal(uint64_t val) {
+  value = val;
+}
 
-public:
-  InitiatorClient() {
-    lastTried = 0;
-  }
+uint64_t LibPaxosInitiator::getVal() {
+  return value;
+}
 
-  void setVal(uint64_t val) {
-    value = val;
-  }
+void LibPaxosInitiator::setLastTried() {
+   lastTried++;
+}
 
-  uint64_t getVal() {
-    return value;
-  }
+uint64_t LibPaxosInitiator::getLastTried() {
+  return lastTried;
+}
 
-  void setLastTried() {
-     lastTried++;
-  }
+uint64_t LibPaxosInitiator::getNextRoundNumber() {
+  return lastTried + 1;
+}
 
-  uint64_t getLastTried() {
-    return lastTried;
-  }
-
-  uint64_t getNextRoundNumber() {
-    return lastTried + 1;
-  }
-
-  int initiateRound() {
-    std::ifstream file("../src/acceptor.conf");
-    std::string str;
+int LibPaxosInitiator::initiateRound() {
+  std::ifstream file("../src/acceptor.conf");
+  std::string str;
     std::vector<std::string> address;
     while (std::getline(file, str)) {
       address.push_back(str);
@@ -130,6 +107,5 @@ public:
         stub_->success(&contextSuccess, v, &k);
       }
      }
-   }
-};
+}
 
