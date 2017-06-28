@@ -28,7 +28,8 @@ LibPaxosAcceptor::LibPaxosAcceptor() {
 }
 
 LibPaxosAcceptor::~LibPaxosAcceptor() {
-  // todo: need to stop
+	server_->Shutdown();
+	thread_.join();
 }
 
 Status LibPaxosAcceptor::getLastVote(ServerContext*, const NextRound* request, LastVote* response) {
@@ -72,9 +73,8 @@ void LibPaxosAcceptor::mainLoop() {
 
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
   builder.RegisterService(this);
-  std::unique_ptr<Server> server(builder.BuildAndStart());
-  std::cout << "Server listening on " << server_address << std::endl;
-  server->Wait();
+  server_ = builder.BuildAndStart();
+  server_->Wait();
 }
 
 } // libpaxos
