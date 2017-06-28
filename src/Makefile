@@ -21,17 +21,14 @@ BUILD_DIR = ../build
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check $(BUILD_DIR)/acceptor $(BUILD_DIR)/initiator
+all: system-check $(BUILD_DIR)/libpaxos.a
 
 $(BUILD_DIR)/%.o: %.cc
 	mkdir -p $(BUILD_DIR)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@
 
-$(BUILD_DIR)/acceptor: $(BUILD_DIR)/paxos.pb.o $(BUILD_DIR)/paxos.grpc.pb.o $(BUILD_DIR)/paxos_acceptor.o
-	$(CXX) $^ $(LDFLAGS) -o $@
-
-$(BUILD_DIR)/initiator: $(BUILD_DIR)/paxos.pb.o $(BUILD_DIR)/paxos.grpc.pb.o $(BUILD_DIR)/paxos_initiator.o
-	$(CXX) $^ $(LDFLAGS) -o $@
+$(BUILD_DIR)/libpaxos.a: $(BUILD_DIR)/paxos.pb.o $(BUILD_DIR)/paxos.grpc.pb.o $(BUILD_DIR)/paxos_acceptor.o $(BUILD_DIR)/paxos_initiator.o
+	ar rcs $@ $^
 
 .PRECIOUS: %.grpc.pb.cc
 %.grpc.pb.cc: %.proto
