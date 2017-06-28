@@ -60,7 +60,6 @@ public:
   }
 
   int initiateRound() {
-
     std::ifstream file("../src/acceptor.conf");
     std::string str;
     std::vector<std::string> address;

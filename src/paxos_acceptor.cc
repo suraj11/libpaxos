@@ -58,18 +58,3 @@ class AcceptorImpl : public Acceptor::Service {
   uint64_t prevVote_ = 0;
 	uint64_t prevValue_ = 0;
 };
-
-int main(int argc, char** argv) {
-  gflags::ParseCommandLineFlags(&argc, &argv, true);
-
-  std::string server_address = "172.31.8.161:" + std::to_string(FLAGS_libpaxos_port);
-  ServerBuilder builder;
-  AcceptorImpl service;
-
-  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-  builder.RegisterService(&service);
-  std::unique_ptr<Server> server(builder.BuildAndStart());
-  std::cout << "Server listening on " << server_address << std::endl;
-  server->Wait();
-  return 0;
-}
