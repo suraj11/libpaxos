@@ -66,7 +66,6 @@ Status LibPaxosAcceptor::success(ServerContext*, const Value* request, Ok* respo
  return Status::OK;
 }
 
-
 void LibPaxosAcceptor::mainLoop() {
   std::string server_address = "0.0.0.0:" + std::to_string(FLAGS_libpaxos_port);
   ServerBuilder builder;
