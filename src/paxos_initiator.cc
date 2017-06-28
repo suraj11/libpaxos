@@ -17,26 +17,6 @@ using grpc::CompletionQueue;
 
 namespace libpaxos {
 
-void LibPaxosInitiator::setVal(uint64_t val) {
-  value_ = val;
-}
-
-uint64_t LibPaxosInitiator::getVal() {
-  return value_;
-}
-
-void LibPaxosInitiator::setLastTried() {
-   lastTried_++;
-}
-
-uint64_t LibPaxosInitiator::getLastTried() {
-  return lastTried_;
-}
-
-uint64_t LibPaxosInitiator::getNextRoundNumber() {
-  return lastTried_ + 1;
-}
-
 int LibPaxosInitiator::initiateRound() {
   std::ifstream file("../src/acceptor.conf");
   std::string str;
@@ -49,8 +29,7 @@ int LibPaxosInitiator::initiateRound() {
   std::vector<LastVote> response(address.size());
   uint64_t maxRound = 0;
   uint64_t maxVal = 1;
-  uint64_t thisRoundNum = getNextRoundNumber();
-  setLastTried();
+  uint64_t thisRoundNum = lastTried_++;
 
   for (int i=0; i < address.size(); i++) {
     channel[i] = grpc::CreateChannel(address[i], grpc::InsecureChannelCredentials());
@@ -104,7 +83,7 @@ int LibPaxosInitiator::initiateRound() {
       Value v;
       Ok k;
       std::cout << "before success" << std::endl;
-      setVal(maxVal);
+      value_ = maxVal;
       stub_->success(&contextSuccess, v, &k);
     }
   }
