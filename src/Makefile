@@ -28,7 +28,7 @@ $(BUILD_DIR)/%.o: %.cc
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@
 
 $(BUILD_DIR)/libpaxos.a: $(BUILD_DIR)/paxos.pb.o $(BUILD_DIR)/paxos.grpc.pb.o $(BUILD_DIR)/paxos_acceptor.o $(BUILD_DIR)/paxos_initiator.o
-	ar rcs $@ $^
+	libtool -static -o $@ $^
 
 .PRECIOUS: %.grpc.pb.cc
 %.grpc.pb.cc: %.proto
