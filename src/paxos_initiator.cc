@@ -17,31 +17,32 @@ using grpc::CompletionQueue;
 
 namespace libpaxos {
 
-int LibPaxosInitiator::initiateRound() {
+LibPaxosInitiator::LibPaxosInitiator() {
   std::ifstream file("../src/acceptor.conf");
   std::string str;
-  std::vector<std::string> address;
   while (std::getline(file, str)) {
-    address.push_back(str);
+    address_.push_back(str);
   }
+}
 
-  std::vector<std::shared_ptr<Channel>> channel(address.size());
-  std::vector<LastVote> response(address.size());
+int LibPaxosInitiator::initiateRound() {
+  std::vector<std::shared_ptr<Channel>> channel(address_.size());
+  std::vector<LastVote> response(address_.size());
   uint64_t maxRound = 0;
   uint64_t maxVal = 1;
   uint64_t thisRoundNum = lastTried_++;
 
-  for (int i=0; i < address.size(); i++) {
-    channel[i] = grpc::CreateChannel(address[i], grpc::InsecureChannelCredentials());
+  for (int i=0; i < address_.size(); i++) {
+    channel[i] = grpc::CreateChannel(address_[i], grpc::InsecureChannelCredentials());
   }
 
   /* Next ballot */
-  for(int i=0; i < address.size(); i++) {
+  for(int i=0; i < address_.size(); i++) {
     auto stub_ = Acceptor::NewStub(channel[i]);
     ClientContext contextGetlastVote;
     NextRound round;
     CompletionQueue cq;
-    std::cout << "created channel for " << address[i] << std::endl;
+    std::cout << "created channel for " << address_[i] << std::endl;
     std::cout << "before getting last vote." << std::endl;
     round.set_roundnumber(thisRoundNum);
     auto rpc = stub_->AsyncgetLastVote(&contextGetlastVote, round, &cq);
@@ -65,9 +66,8 @@ int LibPaxosInitiator::initiateRound() {
     }
   }
 
-
   /* BeginBallot */
-  for(int i=0; i < address.size(); i++) {
+  for(int i=0; i < address_.size(); i++) {
     auto stub_ = Acceptor::NewStub(channel[i]);
 
     ClientContext contextBeginRound;
