@@ -14,6 +14,7 @@ using grpc::ClientReaderWriter;
 using grpc::ClientWriter;
 using grpc::Status;
 using grpc::CompletionQueue;
+using grpc::ClientAsyncResponseReaderInterface;
 
 namespace libpaxos {
 
@@ -27,7 +28,6 @@ LibPaxosInitiator::LibPaxosInitiator() {
 
 int LibPaxosInitiator::initiateRound() {
   std::vector<std::shared_ptr<Channel>> channel(address_.size());
-  std::vector<LastVote> response(address_.size());
   uint64_t maxRound = 0;
   uint64_t maxVal = 1;
   uint64_t thisRoundNum = lastTried_++;
@@ -37,25 +37,30 @@ int LibPaxosInitiator::initiateRound() {
   }
 
   /* Next ballot */
+  CompletionQueue cq;
+	using Rpc = std::unique_ptr<ClientAsyncResponseReaderInterface<LastVote>>;
+	std::vector<std::unique_ptr<Acceptor::Stub>> stubs;
+	std::vector<Rpc> rpcs;
+  std::vector<ClientContext> contextGetlastVote(address_.size());
+	std::vector<Status> status(address_.size());
+	std::vector<NextRound> round(address_.size());
+  std::vector<LastVote> response(address_.size());
+
   for(int i=0; i < address_.size(); i++) {
-    auto stub_ = Acceptor::NewStub(channel[i]);
-    ClientContext contextGetlastVote;
-    NextRound round;
-    CompletionQueue cq;
-    std::cout << "created channel for " << address_[i] << std::endl;
-    std::cout << "before getting last vote." << std::endl;
-    round.set_roundnumber(thisRoundNum);
-    auto rpc = stub_->AsyncgetLastVote(&contextGetlastVote, round, &cq);
-    std::cout << "got last vote." << std::endl;
+    stubs.push_back(Acceptor::NewStub(channel[i]));
+    round[i].set_roundnumber(thisRoundNum);
+    rpcs.emplace_back(stubs[i]->AsyncgetLastVote(&contextGetlastVote[i], round[i], &cq));
+    rpcs.back()->Finish(&response[i], &status[i], reinterpret_cast<void*>(i));
+  }
 
-    Status status;
-    rpc->Finish(&response[i], &status, (void*)&i);
-
+	for (int j = 0; j < std::max((size_t) 1, address_.size() / 2 + 1); j++) {
     void* got_tag;
     bool ok = false;
     std::cout << "before cq" << std::endl;
     cq.Next(&got_tag, &ok);
-    if (ok && got_tag == (void*)&i) {
+		std::cout << "after cq" << std::endl;
+    if (ok) {
+			const auto i = reinterpret_cast<int>(got_tag);
       std::cout << response[i].lastvalue() << std::endl;
       if(response[i].accepted() && response[i].lastround() > maxRound) {
         maxRound = response[i].lastround();
@@ -66,7 +71,7 @@ int LibPaxosInitiator::initiateRound() {
     }
   }
 
-  /* BeginBallot */
+  /* Begin ballot 
   for(int i=0; i < address_.size(); i++) {
     auto stub_ = Acceptor::NewStub(channel[i]);
 
@@ -86,7 +91,7 @@ int LibPaxosInitiator::initiateRound() {
       value_ = maxVal;
       stub_->success(&contextSuccess, v, &k);
     }
-  }
+  } */
 }
 
 }

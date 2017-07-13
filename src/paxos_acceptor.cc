@@ -1,5 +1,6 @@
 #include "paxos_acceptor.h"
 
+#include <unistd.h>
 #include <gflags/gflags.h>
 #include <grpc/grpc.h>
 #include <grpc++/server.h>
@@ -22,9 +23,16 @@ using grpc::Status;
 namespace libpaxos {
 
 LibPaxosAcceptor::LibPaxosAcceptor() {
+  std::string server_address = "127.0.0.1:" + std::to_string(FLAGS_libpaxos_port);
+  ServerBuilder builder;
+  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+  builder.RegisterService(this);
+  server_ = builder.BuildAndStart();
+
   thread_ = std::thread([this]() {
 		mainLoop();
 	});
+	sleep(3);
 }
 
 LibPaxosAcceptor::~LibPaxosAcceptor() {
@@ -35,6 +43,7 @@ LibPaxosAcceptor::~LibPaxosAcceptor() {
 Status LibPaxosAcceptor::getLastVote(ServerContext*, const NextRound* request, LastVote* response) {
   const auto round = request->roundnumber();
   response->set_roundnumber(round);
+	std::cout << "in last vote" << std::endl;
   if (round > nextRound_) {
     nextRound_ = round;
     response->set_lastvalue(prevValue_);
@@ -68,12 +77,7 @@ Status LibPaxosAcceptor::success(ServerContext*, const Value* request, Ok* respo
 }
 
 void LibPaxosAcceptor::mainLoop() {
-  std::string server_address = "0.0.0.0:" + std::to_string(FLAGS_libpaxos_port);
-  ServerBuilder builder;
-
-  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-  builder.RegisterService(this);
-  server_ = builder.BuildAndStart();
+	std::cout << "in main loop" << std::endl;
   server_->Wait();
 }
 

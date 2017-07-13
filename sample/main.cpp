@@ -5,7 +5,6 @@
 int main() {
   libpaxos::LibPaxosInitiator p;
   libpaxos::LibPaxosAcceptor q;
-
   p.initiateRound();
   return 0;
 }
