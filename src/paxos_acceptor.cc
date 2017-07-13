@@ -23,11 +23,12 @@ using grpc::Status;
 namespace libpaxos {
 
 LibPaxosAcceptor::LibPaxosAcceptor() {
-  std::string server_address = "127.0.0.1:" + std::to_string(FLAGS_libpaxos_port);
+  std::string server_address = "0.0.0.0:" + std::to_string(FLAGS_libpaxos_port);
   ServerBuilder builder;
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
   builder.RegisterService(this);
   server_ = builder.BuildAndStart();
+  std::cout<<"server starting\n";
 
   thread_ = std::thread([this]() {
 		mainLoop();

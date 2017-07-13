@@ -19,9 +19,12 @@ using grpc::ClientAsyncResponseReaderInterface;
 namespace libpaxos {
 
 LibPaxosInitiator::LibPaxosInitiator() {
-  std::ifstream file("../src/acceptor.conf");
+  std::ifstream file;
+  std::cout<<"initializing\n";
+  file.open("/home/ubuntu/suraj/libpaxos/src/acceptor.conf");
   std::string str;
   while (std::getline(file, str)) {
+    std::cout<<"address: "<< str<<"\n";
     address_.push_back(str);
   }
 }
@@ -71,7 +74,7 @@ int LibPaxosInitiator::initiateRound() {
     }
   }
 
-  /* Begin ballot 
+  /* Begin ballot */
   for(int i=0; i < address_.size(); i++) {
     auto stub_ = Acceptor::NewStub(channel[i]);
 
@@ -91,7 +94,7 @@ int LibPaxosInitiator::initiateRound() {
       value_ = maxVal;
       stub_->success(&contextSuccess, v, &k);
     }
-  } */
+  }
 }
 
 }
